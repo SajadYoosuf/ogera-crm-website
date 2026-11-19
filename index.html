@@ -435,34 +435,6 @@ footer { background: #060E09; padding-block: 48px 32px; }
 }
 .footer-copy { font-size: 12px; color: rgba(255,255,255,.3); }
 
-/* ── PRIVACY MODAL ── */
-.modal-backdrop {
-  display: none; position: fixed; inset: 0; z-index: 200;
-  background: rgba(0,0,0,.55); backdrop-filter: blur(4px);
-}
-.modal-backdrop.open { display: flex; align-items: center; justify-content: center; padding: 24px; }
-.modal-box {
-  background: var(--white); border-radius: 10px; max-width: 680px; width: 100%;
-  max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 64px rgba(0,0,0,.22);
-}
-.modal-header {
-  position: sticky; top: 0; background: var(--white); border-bottom: 1px solid var(--border);
-  padding: 20px 28px; display: flex; justify-content: space-between; align-items: center; z-index: 1;
-}
-.modal-header h2 { font-family: var(--hf); font-size: 18px; font-weight: 700; color: var(--text-h); }
-.modal-close {
-  width: 32px; height: 32px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--page); color: var(--text-s); font-size: 18px; line-height: 1;
-  display: flex; align-items: center; justify-content: center;
-}
-.modal-close:hover { background: var(--border); }
-.modal-body { padding: 28px; }
-.modal-body h3 { font-family: var(--hf); font-size: 14px; font-weight: 700; color: var(--brand); margin: 24px 0 8px; text-transform: uppercase; letter-spacing: .04em; }
-.modal-body h3:first-child { margin-top: 0; }
-.modal-body p, .modal-body li { font-size: 14px; color: var(--text-b); line-height: 1.75; }
-.modal-body ul { padding-left: 18px; display: flex; flex-direction: column; gap: 4px; }
-.modal-body a { color: var(--accent); }
-.modal-updated { font-size: 12px; color: var(--text-m); margin-bottom: 20px; }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 860px) {
@@ -929,58 +901,6 @@ nav {
   </div>
 </section>
 
-<!-- PRIVACY POLICY MODAL -->
-<div class="modal-backdrop" id="privacy-modal" role="dialog" aria-modal="true" aria-labelledby="privacy-title">
-  <div class="modal-box">
-    <div class="modal-header">
-      <h2 id="privacy-title">Privacy Policy</h2>
-      <button class="modal-close" id="close-privacy" aria-label="Close">×</button>
-    </div>
-    <div class="modal-body">
-      <p class="modal-updated">Last updated: November 2026</p>
-
-      <h3>Who We Are</h3>
-      <p>Ogera CRM is a product of Ogera Ventures Private Limited, registered in Malappuram, Kerala, India. This policy explains what data we collect when you use our CRM platform, why we collect it, and how we protect it.</p>
-
-      <h3>Data We Collect</h3>
-      <ul>
-        <li>Business and contact details you enter into the CRM (leads, customers, follow-ups, quotations)</li>
-        <li>Your name, phone number, and email when you sign up or book a demo</li>
-        <li>Usage logs (login times, feature activity) to monitor platform health</li>
-        <li>Device and browser information for security and troubleshooting</li>
-      </ul>
-
-      <h3>How We Use Your Data</h3>
-      <ul>
-        <li>To run and improve the Ogera CRM platform for your business</li>
-        <li>To respond to demo requests and support queries</li>
-        <li>To send important service updates (you can opt out of marketing messages at any time)</li>
-        <li>To detect and prevent fraud or unauthorised access</li>
-      </ul>
-
-      <h3>Data Storage and Security</h3>
-      <p>Your data is stored on secured servers within India. We use encrypted connections (HTTPS), access controls, and regular security reviews. We never sell your data to third parties.</p>
-
-      <h3>WhatsApp Integration</h3>
-      <p>If you connect Ogera CRM to your WhatsApp Business account, messages are processed through the official Meta Business API. We store only the conversation records you choose to sync into the CRM. We do not access messages outside the CRM sync you configure.</p>
-
-      <h3>Data Retention</h3>
-      <p>We keep your business data for as long as your account is active. If you close your account, we delete your data within 30 days unless a legal obligation requires us to keep it longer.</p>
-
-      <h3>Your Rights</h3>
-      <ul>
-        <li>Access or download your data at any time from account settings</li>
-        <li>Request correction of inaccurate records</li>
-        <li>Request deletion of your account and all associated data</li>
-        <li>Opt out of marketing communications</li>
-      </ul>
-
-      <h3>Contact Us</h3>
-      <p>For any privacy questions or requests, write to us at <a href="mailto:ogeracalicut@gmail.com">ogeracalicut@gmail.com</a> or reach us via the demo booking form on this page. We respond within 3 working days.</p>
-    </div>
-  </div>
-</div>
-
 <!-- FOOTER -->
 <footer>
   <div class="wrap">
@@ -1005,7 +925,7 @@ nav {
           <h5>Company</h5>
           <ul>
             <li><a href="#">About Ogera Ventures</a></li>
-            <li><a href="#" id="open-privacy">Privacy Policy</a></li>
+            <li><a href="/privacy-policy">Privacy Policy</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
         </div>
@@ -1031,16 +951,4 @@ nav {
   document.addEventListener('keydown', function(e){ if(e.key==='Escape') close(); });
 })();
 
-// Privacy Policy modal
-(function() {
-  var modal = document.getElementById('privacy-modal');
-  var openBtn = document.getElementById('open-privacy');
-  var closeBtn = document.getElementById('close-privacy');
-  function openModal(e) { e.preventDefault(); modal.classList.add('open'); document.body.style.overflow = 'hidden'; }
-  function closeModal() { modal.classList.remove('open'); document.body.style.overflow = ''; }
-  openBtn.addEventListener('click', openModal);
-  closeBtn.addEventListener('click', closeModal);
-  modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
-  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
-})();
 </script>
