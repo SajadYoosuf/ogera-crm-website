@@ -1,0 +1,952 @@
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Ogera CRM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&family=Noto+Sans+Malayalam:wght@400;600;700&display=swap">
+
+<style>
+/*
+  White-dominant, left-aligned, one deliberate dark section (WhatsApp).
+  No gradient hero, no ALL-CAPS labels, no card grids, no fake stats.
+  Hero shows a real contacts table mockup — immediately recognizable.
+*/
+:root {
+  --white:  #FFFFFF;
+  --page:   #F4F7F5;
+  --brand:  #0E4D3A;
+  --accent: #157A50;
+  --soft:   #EBF3EE;
+  --text-h: #0A1F14;
+  --text-b: #2A3830;
+  --text-s: #5B7A6E;
+  --text-m: #90ADA4;
+  --border: #DDE8E3;
+  --hf: 'Sora', system-ui, sans-serif;
+  --bf: 'DM Sans', system-ui, sans-serif;
+  --mf: 'Noto Sans Malayalam', 'DM Sans', system-ui, sans-serif;
+  --r: 6px;
+  color-scheme: light;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 101;
+  background: var(--white);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+.ml { font-family: var(--mf); line-height: 1.6; }
+
+body {
+  font-family: var(--bf);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text-b);
+  background: var(--white);
+}
+
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-left: max(24px, env(safe-area-inset-left, 0px));
+  padding-right: max(24px, env(safe-area-inset-right, 0px));
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 100;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+}
+.nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 15px;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  text-decoration: none;
+}
+.nav-mark {
+  width: 32px; height: 32px;
+  border-radius: var(--r);
+  background: var(--brand);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--hf); font-size: 13px; font-weight: 800;
+  color: #fff; flex-shrink: 0;
+}
+.nav-name {
+  font-family: var(--hf); font-size: 16px; font-weight: 700; color: var(--text-h);
+}
+.nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+.nav-links a {
+  font-size: 14px; font-weight: 500; color: var(--text-s);
+  text-decoration: none; transition: color .15s;
+}
+.nav-links a:hover { color: var(--accent); }
+.nav-cta {
+  display: inline-block; background: var(--accent); color: #fff;
+  font-family: var(--bf); font-size: 14px; font-weight: 600;
+  padding: 9px 20px; border-radius: var(--r); text-decoration: none;
+  transition: background .15s;
+}
+.nav-cta:hover { background: var(--brand); }
+.nav-toggle {
+  display: none; background: none; border: none; cursor: pointer;
+  padding: 4px; color: var(--text-b);
+}
+
+/* Mobile nav */
+.mobile-nav { display: none; position: fixed; inset: 0; z-index: 99; }
+.mobile-nav.open { display: block; }
+.mnav-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.35); }
+.mnav-panel {
+  position: absolute; top: 0; right: 0; bottom: 0; width: 240px;
+  background: var(--white); border-left: 1px solid var(--border);
+  padding: 76px 20px 24px;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.mnav-link {
+  display: block; padding: 11px 14px; border-radius: var(--r);
+  font-size: 15px; font-weight: 500; color: var(--text-b);
+  text-decoration: none; transition: background .12s;
+}
+.mnav-link:hover { background: var(--page); }
+.mnav-cta {
+  margin-top: 14px; display: block; background: var(--accent); color: #fff;
+  font-weight: 600; font-size: 14px; padding: 12px 20px;
+  border-radius: var(--r); text-decoration: none; text-align: center;
+}
+
+/* ── HERO ── */
+.hero { background: var(--white); padding-block: 80px 72px; }
+.hero-inner {
+  display: grid; grid-template-columns: 52% 1fr;
+  gap: 56px; align-items: center;
+}
+.hero-chip {
+  display: inline-block; font-size: 12px; font-weight: 600;
+  color: var(--accent); background: var(--soft);
+  padding: 4px 12px; border-radius: 999px; margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: var(--hf); font-size: clamp(28px, 4vw, 46px); font-weight: 800;
+  color: var(--text-h); line-height: 1.1; text-wrap: balance;
+  margin-bottom: 20px; letter-spacing: -.02em;
+}
+.hero-sub {
+  font-size: 16px; color: var(--text-s); line-height: 1.7;
+  max-width: 480px; margin-bottom: 36px;
+}
+.hero-actions { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.btn-primary {
+  display: inline-block; background: var(--accent); color: #fff;
+  font-family: var(--bf); font-size: 14px; font-weight: 600;
+  padding: 12px 24px; border-radius: var(--r); text-decoration: none;
+  transition: background .15s;
+}
+.btn-primary:hover { background: var(--brand); }
+.btn-text {
+  font-size: 14px; font-weight: 600; color: var(--accent); text-decoration: none;
+  border-bottom: 1.5px solid transparent; transition: border-color .15s;
+}
+.btn-text:hover { border-color: var(--accent); }
+
+/* hero app mockup */
+.app-shell {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden;
+  box-shadow: 0 4px 32px rgba(10,31,20,.09);
+}
+.app-topbar {
+  background: var(--page); border-bottom: 1px solid var(--border);
+  padding: 10px 16px; display: flex; align-items: center;
+  justify-content: space-between; gap: 12px;
+}
+.app-topbar-title { font-family: var(--hf); font-size: 12px; font-weight: 700; color: var(--text-h); }
+.app-search {
+  font-size: 11px; color: var(--text-m); background: var(--white);
+  border: 1px solid var(--border); border-radius: 4px; padding: 4px 10px; min-width: 110px;
+}
+.app-add {
+  font-size: 11px; font-weight: 600; color: var(--accent);
+  background: var(--soft); padding: 4px 10px; border-radius: 4px; white-space: nowrap;
+}
+.app-table { width: 100%; border-collapse: collapse; }
+.app-table th {
+  font-size: 10px; font-weight: 600; color: var(--text-m);
+  text-align: left; padding: 7px 14px; border-bottom: 1px solid var(--border);
+  background: var(--page); letter-spacing: .03em;
+}
+.app-table td {
+  font-size: 12px; padding: 9px 14px; border-bottom: 1px solid var(--border);
+  color: var(--text-b); vertical-align: middle;
+}
+.app-table tr:last-child td { border-bottom: none; }
+.app-table tr:hover td { background: var(--page); }
+.app-name { font-weight: 600; color: var(--text-h); font-size: 12px; }
+.app-phone { font-size: 11px; color: var(--text-m); margin-top: 1px; font-variant-numeric: tabular-nums; }
+.status-pill {
+  display: inline-block; font-size: 10px; font-weight: 600;
+  padding: 2px 8px; border-radius: 999px; white-space: nowrap;
+}
+.s-new { background: #E8F4FD; color: #1565D8; }
+.s-int { background: #EAF8EF; color: #0E7A4F; }
+.s-neg { background: #FFF6E0; color: #966100; }
+.s-won { background: #EAF8EF; color: #0A5533; }
+.s-cold { background: var(--page); color: var(--text-m); }
+.s-fu  { background: #FEF0E8; color: #B44E00; }
+.fw-alert { font-size: 11px; color: #B44E00; font-weight: 600; }
+.fw-ok    { font-size: 11px; color: var(--text-m); }
+
+/* ── PAIN ── */
+.pain-section { background: var(--page); padding-block: 72px; }
+.pain-heading {
+  font-family: var(--hf); font-size: clamp(20px, 2.8vw, 28px); font-weight: 700;
+  color: var(--text-h); text-wrap: balance; margin-bottom: 44px;
+}
+.pain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+.pain-label { font-size: 11px; font-weight: 600; color: var(--text-m); margin-bottom: 8px; letter-spacing: .04em; }
+.pain-item h3 {
+  font-family: var(--hf); font-size: 17px; font-weight: 700; color: var(--text-h);
+  margin-bottom: 10px; line-height: 1.3; text-wrap: balance;
+}
+.pain-item p { font-size: 14px; color: var(--text-s); line-height: 1.7; }
+
+/* ── PRODUCT SHOWCASE ── */
+.product-section { background: var(--white); padding-block: 80px; }
+.section-eyebrow { font-size: 12px; font-weight: 600; color: var(--accent); margin-bottom: 10px; display: block; }
+.section-h2 {
+  font-family: var(--hf); font-size: clamp(22px, 3vw, 32px); font-weight: 700;
+  color: var(--text-h); text-wrap: balance; line-height: 1.2;
+  margin-bottom: 14px; letter-spacing: -.01em;
+}
+.section-sub {
+  font-size: 15px; color: var(--text-s); line-height: 1.7;
+  max-width: 560px; margin-bottom: 44px;
+}
+.product-frame {
+  border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+  box-shadow: 0 8px 40px rgba(10,31,20,.08);
+}
+.product-topbar {
+  background: var(--brand); padding: 10px 20px;
+  display: flex; align-items: center; gap: 14px;
+}
+.product-topbar-logo { display: flex; align-items: center; gap: 8px; }
+.product-topbar-mark {
+  width: 26px; height: 26px; border-radius: 5px;
+  background: rgba(255,255,255,.18); display: flex; align-items: center; justify-content: center;
+  font-family: var(--hf); font-size: 11px; font-weight: 800; color: #fff;
+}
+.product-topbar-name { font-family: var(--hf); font-size: 13px; font-weight: 700; color: rgba(255,255,255,.9); }
+.product-nav { display: flex; gap: 4px; margin-left: auto; }
+.product-nav-item { font-size: 11px; font-weight: 500; color: rgba(255,255,255,.55); padding: 4px 10px; border-radius: 4px; }
+.product-nav-item.active { background: rgba(255,255,255,.15); color: #fff; }
+.product-body { display: flex; background: var(--white); }
+.product-sidebar {
+  width: 46px; background: var(--page); border-right: 1px solid var(--border);
+  padding: 12px 0; display: flex; flex-direction: column; align-items: center;
+  gap: 8px; flex-shrink: 0;
+}
+.ps-icon {
+  width: 30px; height: 30px; border-radius: 5px;
+  display: flex; align-items: center; justify-content: center; color: var(--text-m);
+}
+.ps-icon.active { background: var(--soft); color: var(--accent); }
+.product-main { flex: 1; min-width: 0; padding: 16px; }
+.product-main-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px; gap: 10px;
+}
+.product-main-title { font-family: var(--hf); font-size: 13px; font-weight: 700; color: var(--text-h); }
+.product-main-actions { display: flex; gap: 6px; }
+.prod-btn {
+  font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 4px;
+  color: var(--text-s); background: var(--page); border: 1px solid var(--border);
+}
+.prod-btn-primary {
+  font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 4px;
+  color: #fff; background: var(--accent);
+}
+.product-table { width: 100%; border-collapse: collapse; }
+.product-table th {
+  font-size: 9.5px; font-weight: 600; color: var(--text-m); text-align: left;
+  padding: 5px 10px; background: var(--page); border-bottom: 1px solid var(--border);
+  letter-spacing: .03em; white-space: nowrap;
+}
+.product-table td {
+  font-size: 11px; padding: 8px 10px; border-bottom: 1px solid var(--border);
+  color: var(--text-b); vertical-align: middle;
+}
+.product-table tr:last-child td { border-bottom: none; }
+.product-table tr:hover td { background: var(--page); }
+.pt-name { font-weight: 600; color: var(--text-h); font-size: 11px; }
+.pt-sub  { font-size: 9.5px; color: var(--text-m); margin-top: 1px; }
+.pt-fw   { font-size: 10px; color: #B44E00; font-weight: 600; }
+.pt-ok   { font-size: 10px; color: var(--text-m); }
+
+/* ── WHATSAPP ── */
+.wa-section { background: var(--page); padding-block: 80px; }
+.wa-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+.wa-eyebrow { color: var(--accent); }
+.wa-h2 {
+  font-family: var(--hf); font-size: clamp(22px, 3vw, 32px); font-weight: 700;
+  color: var(--text-h); text-wrap: balance; line-height: 1.2;
+  margin-bottom: 16px; letter-spacing: -.01em;
+}
+.wa-sub {
+  font-size: 15px; color: var(--text-s); line-height: 1.75;
+  margin-bottom: 32px; max-width: 480px;
+}
+.wa-points { display: flex; flex-direction: column; gap: 14px; }
+.wa-point {
+  display: flex; align-items: flex-start; gap: 12px;
+  font-size: 14px; color: var(--text-b); line-height: 1.55;
+}
+.wa-check {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--soft); display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 2px;
+}
+.wa-phone {
+  background: #101F14; border-radius: 14px; padding: 14px;
+  box-shadow: 0 8px 40px rgba(10,31,20,.13);
+}
+.wa-phone-topbar {
+  display: flex; align-items: center; gap: 10px;
+  padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,.08); margin-bottom: 14px;
+}
+.wa-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--hf); font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.wa-contact-name { font-size: 13px; font-weight: 600; color: #fff; }
+.wa-status { font-size: 10px; color: #25D366; margin-top: 1px; }
+.wa-msgs { display: flex; flex-direction: column; gap: 8px; }
+.wa-msg {
+  padding: 9px 13px; border-radius: 10px 10px 10px 2px;
+  font-size: 12.5px; line-height: 1.5; max-width: 86%;
+}
+.wa-msg.in  { background: rgba(255,255,255,.1); color: rgba(255,255,255,.85); }
+.wa-msg.out {
+  background: #157A50; color: #fff;
+  border-radius: 10px 10px 2px 10px; margin-left: auto;
+}
+.wa-time { font-size: 9.5px; color: rgba(255,255,255,.35); margin-top: 3px; text-align: right; }
+.wa-auto-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 9.5px; font-weight: 600; color: #25D366;
+  background: rgba(37,211,102,.12); border: 1px solid rgba(37,211,102,.25);
+  padding: 3px 9px; border-radius: 999px; margin-top: 10px;
+}
+
+/* ── FEATURES ── */
+.features-section { background: var(--page); padding-block: 80px; }
+.feature-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+.feature-pair + .feature-pair { margin-top: 72px; }
+.feat-copy h3 {
+  font-family: var(--hf); font-size: clamp(20px, 2.5vw, 28px); font-weight: 700;
+  color: var(--text-h); text-wrap: balance; line-height: 1.25;
+  margin-bottom: 14px; letter-spacing: -.01em;
+}
+.feat-copy p { font-size: 15px; color: var(--text-s); line-height: 1.75; margin-bottom: 24px; }
+.feat-list { display: flex; flex-direction: column; gap: 10px; }
+.feat-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--text-b); }
+.feat-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 7px; }
+.feat-visual {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden;
+  box-shadow: 0 4px 24px rgba(10,31,20,.07);
+}
+.feat-visual-topbar {
+  background: var(--page); border-bottom: 1px solid var(--border);
+  padding: 8px 14px; font-family: var(--hf); font-size: 11px; font-weight: 700; color: var(--text-s);
+}
+.feat-visual-body { padding: 14px; }
+
+/* follow-up rows */
+.fu-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 0; border-bottom: 1px solid var(--border);
+}
+.fu-row:last-child { border-bottom: none; }
+.fu-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+.fu-name { font-size: 11.5px; font-weight: 600; color: var(--text-h); }
+.fu-note { font-size: 10.5px; color: var(--text-s); margin-top: 1px; }
+.fu-time { font-size: 10px; font-weight: 600; margin-left: auto; white-space: nowrap; padding-top: 2px; }
+
+/* quotation rows */
+.quot-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 7px 0; border-bottom: 1px solid var(--border);
+  font-size: 11.5px;
+}
+.quot-row:last-child { border-bottom: none; }
+.quot-name { font-weight: 600; color: var(--text-h); }
+.quot-sub  { font-size: 10px; color: var(--text-m); margin-top: 1px; }
+.quot-amt  { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--text-h); font-size: 12px; }
+
+/* ── CTA ── */
+.cta-section { background: var(--white); padding-block: 100px; }
+.cta-box { max-width: 580px; }
+.cta-box h2 {
+  font-family: var(--hf); font-size: clamp(24px, 3.5vw, 36px); font-weight: 800;
+  color: var(--text-h); text-wrap: balance; line-height: 1.15;
+  letter-spacing: -.02em; margin-bottom: 16px;
+}
+.cta-box p { font-size: 16px; color: var(--text-s); line-height: 1.7; margin-bottom: 32px; }
+.cta-actions { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.cta-note { margin-top: 18px; font-size: 13px; color: var(--text-m); }
+
+/* ── FOOTER ── */
+footer { background: #060E09; padding-block: 48px 32px; }
+.footer-inner {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-wrap: wrap; gap: 32px;
+}
+.footer-logo { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.footer-mark {
+  width: 28px; height: 28px; border-radius: 5px;
+  background: rgba(255,255,255,.12); display: flex; align-items: center; justify-content: center;
+  font-family: var(--hf); font-size: 11px; font-weight: 800; color: #fff;
+}
+.footer-name { font-family: var(--hf); font-size: 15px; font-weight: 700; color: rgba(255,255,255,.85); }
+.footer-tagline { font-size: 13px; color: rgba(255,255,255,.4); line-height: 1.6; max-width: 220px; }
+.footer-cols { display: flex; gap: 44px; }
+.footer-col h5 { font-size: 11px; font-weight: 600; color: rgba(255,255,255,.35); margin-bottom: 12px; letter-spacing: .04em; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.footer-col a { font-size: 13px; color: rgba(255,255,255,.55); text-decoration: none; }
+.footer-col a:hover { color: rgba(255,255,255,.88); }
+.footer-bottom {
+  margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.07);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 8px;
+}
+.footer-copy { font-size: 12px; color: rgba(255,255,255,.3); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 860px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 44px; }
+  .wa-inner   { grid-template-columns: 1fr; gap: 44px; }
+  .feature-pair { grid-template-columns: 1fr; gap: 36px; }
+  .feature-pair.flip .feat-visual { order: -1; }
+  .pain-grid  { grid-template-columns: 1fr; gap: 32px; }
+  .footer-inner { flex-direction: column; gap: 28px; }
+  .footer-cols  { flex-wrap: wrap; gap: 28px; }
+}
+@media (max-width: 640px) {
+  .nav-links  { display: none; }
+  .nav-toggle { display: flex; }
+  .product-sidebar { display: none; }
+  .product-nav { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+/* ── BRAND GREEN OVERRIDES ── */
+/* nav + hero + cta go dark-green; middle sections stay light */
+body::before { background: #0E4D3A; }
+
+nav {
+  background: #0E4D3A;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+.nav-mark { background: rgba(255,255,255,.15); }
+.nav-name { color: #fff; }
+.nav-links a { color: rgba(255,255,255,.6); }
+.nav-links a:hover { color: #fff; }
+.nav-cta { background: #2DB572; color: #fff; }
+.nav-cta:hover { background: #26A865; }
+.nav-toggle { color: rgba(255,255,255,.8); }
+.mnav-panel { background: #0E4D3A; border-left-color: rgba(255,255,255,.1); }
+.mnav-link { color: rgba(255,255,255,.75); }
+.mnav-link:hover { background: rgba(255,255,255,.08); }
+.mnav-cta { background: #2DB572; }
+
+.hero { background: #0E4D3A; padding-block: 88px 80px; }
+.hero-chip { background: rgba(255,255,255,.12); color: #7EDBA8; }
+.hero h1 { color: #fff; }
+.hero-sub { color: rgba(255,255,255,.65); }
+.btn-text { color: rgba(255,255,255,.75); }
+.btn-text:hover { border-color: rgba(255,255,255,.65); color: #fff; }
+.app-shell { box-shadow: 0 8px 48px rgba(0,0,0,.3); }
+
+.cta-section { background: #0E4D3A; }
+.cta-box h2 { color: #fff; }
+.cta-box p { color: rgba(255,255,255,.65); }
+.cta-note { color: rgba(255,255,255,.38); }
+.cta-actions .btn-primary { background: #2DB572; }
+.cta-actions .btn-primary:hover { background: #26A865; }
+.cta-actions .btn-text { color: rgba(255,255,255,.75); }
+.cta-actions .btn-text:hover { border-color: rgba(255,255,255,.65); color: #fff; }
+</style>
+
+<!-- NAV -->
+<nav>
+  <div class="wrap">
+    <div class="nav-row">
+      <a href="#" class="nav-logo">
+        <div class="nav-mark">OC</div>
+        <span class="nav-name">Ogera CRM</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#product">Product</a></li>
+        <li><a href="#whatsapp">WhatsApp</a></li>
+        <li><a href="#features">Features</a></li>
+      </ul>
+      <div style="display:flex;align-items:center;gap:10px">
+        <a href="#contact" class="nav-cta">Book a demo</a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
+            <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-nav" id="mobile-nav">
+  <div class="mnav-backdrop" id="mnav-backdrop"></div>
+  <div class="mnav-panel">
+    <a href="#product"  class="mnav-link">Product</a>
+    <a href="#whatsapp" class="mnav-link">WhatsApp</a>
+    <a href="#features" class="mnav-link">Features</a>
+    <a href="#contact"  class="mnav-cta">Book a demo</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <span class="hero-chip ml">കേരളത്തിലെ ബിസിനസ്സുകൾക്ക്</span>
+        <h1 class="ml">നിങ്ങളുടെ leads ആരുടെയോ WhatsApp-ൽ കുടുങ്ങിക്കിടക്കുകയാണ്.</h1>
+        <p class="hero-sub">Ogera CRM gives your sales team one place to track every enquiry, schedule follow-ups, send quotations, and close deals — without anything slipping through the cracks.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn-primary">Book a free demo</a>
+          <a href="#product" class="btn-text">See how it works</a>
+        </div>
+      </div>
+      <div>
+        <div class="app-shell">
+          <div class="app-topbar">
+            <span class="app-topbar-title">Leads — November 2026</span>
+            <div class="app-search">Search...</div>
+            <div class="app-add">+ Add lead</div>
+          </div>
+          <table class="app-table">
+            <thead>
+              <tr>
+                <th>Contact</th>
+                <th>Status</th>
+                <th>Follow-up</th>
+                <th>Owner</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="app-name">Rajan Nair</div><div class="app-phone">+91 94470 ××××</div></td>
+                <td><span class="status-pill s-int">Interested</span></td>
+                <td><span class="fw-alert">Today — overdue</span></td>
+                <td style="font-size:11px;color:var(--text-s)">Arun K.</td>
+              </tr>
+              <tr>
+                <td><div class="app-name">Fathima Ibrahim</div><div class="app-phone">+91 98950 ××××</div></td>
+                <td><span class="status-pill s-new">New lead</span></td>
+                <td><span class="fw-ok">Not scheduled</span></td>
+                <td style="font-size:11px;color:var(--text-m)">—</td>
+              </tr>
+              <tr>
+                <td><div class="app-name">Suresh Menon</div><div class="app-phone">+91 90610 ××××</div></td>
+                <td><span class="status-pill s-neg">Negotiation</span></td>
+                <td><span class="fw-ok">Quotation sent</span></td>
+                <td style="font-size:11px;color:var(--text-s)">Muhammed P.</td>
+              </tr>
+              <tr>
+                <td><div class="app-name">Ibrahim P.</div><div class="app-phone">+91 94012 ××××</div></td>
+                <td><span class="status-pill s-won">Won</span></td>
+                <td><span class="fw-ok">Closed 14 Nov</span></td>
+                <td style="font-size:11px;color:var(--text-s)">Arun K.</td>
+              </tr>
+              <tr>
+                <td><div class="app-name">Priya Suresh</div><div class="app-phone">+91 94470 ××××</div></td>
+                <td><span class="status-pill s-fu">Follow up</span></td>
+                <td><span class="fw-alert">3 days ago</span></td>
+                <td style="font-size:11px;color:var(--text-m)">—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN -->
+<section class="pain-section">
+  <div class="wrap">
+    <h2 class="pain-heading ml">വളരുന്ന ഓരോ Kerala ബിസിനസ്സും ഈ ഒരേ പ്രശ്നത്തിൽ തട്ടും.</h2>
+    <div class="pain-grid">
+      <div class="pain-item">
+        <div class="pain-label ml">ലീഡ് തണുത്തു</div>
+        <h3>Leads go cold because nobody called back</h3>
+        <p>You got an enquiry at 9pm. By morning it was buried under 40 other messages. The customer waited two days, then bought from someone else.</p>
+      </div>
+      <div class="pain-item">
+        <div class="pain-label ml">ടീമിന്റെ track ഇല്ല</div>
+        <h3>You have no idea what your team did today</h3>
+        <p>Your best salesperson is busy. But busy doing what? Which leads did they call? Which visits happened? The only record is in their head.</p>
+      </div>
+      <div class="pain-item">
+        <div class="pain-label ml">ക്വൊട്ടേഷൻ WhatsApp ഫോട്ടോ ആയി</div>
+        <h3>Quotations sent as photos on personal phones</h3>
+        <p>A photo of a Word document, sent from someone's personal WhatsApp. No follow-up, no version history, no way to know if the customer even opened it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section class="product-section" id="product">
+  <div class="wrap">
+    <span class="section-eyebrow">The product</span>
+    <h2 class="section-h2">One place for your whole sales operation</h2>
+    <p class="section-sub">Every lead, every conversation, every follow-up and quotation — your team works from one screen, and you can see all of it.</p>
+    <div class="product-frame">
+      <div class="product-topbar">
+        <div class="product-topbar-logo">
+          <div class="product-topbar-mark">OC</div>
+          <span class="product-topbar-name">Ogera CRM</span>
+        </div>
+        <div class="product-nav">
+          <span class="product-nav-item active">Contacts</span>
+          <span class="product-nav-item">Follow-ups</span>
+          <span class="product-nav-item">Quotations</span>
+          <span class="product-nav-item">WhatsApp</span>
+          <span class="product-nav-item">Field Map</span>
+        </div>
+      </div>
+      <div class="product-body">
+        <div class="product-sidebar">
+          <div class="ps-icon active">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="2"/></svg>
+          </div>
+          <div class="ps-icon">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/><line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/></svg>
+          </div>
+          <div class="ps-icon">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="2"/><polyline points="14 2 14 8 20 8" stroke="currentColor" stroke-width="2"/></svg>
+          </div>
+          <div class="ps-icon">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="2"/></svg>
+          </div>
+          <div class="ps-icon">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2"/></svg>
+          </div>
+        </div>
+        <div class="product-main">
+          <div class="product-main-header">
+            <span class="product-main-title">All Contacts — 148 leads</span>
+            <div class="product-main-actions">
+              <span class="prod-btn">Filter</span>
+              <span class="prod-btn">Export</span>
+              <span class="prod-btn-primary">+ Add lead</span>
+            </div>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="product-table">
+              <thead>
+                <tr>
+                  <th>Name &amp; contact</th>
+                  <th>Source</th>
+                  <th>Status</th>
+                  <th>Follow-up</th>
+                  <th>Quotation</th>
+                  <th>Owner</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><div class="pt-name">Rajan Nair</div><div class="pt-sub">+91 94470 ×××× · Malappuram</div></td>
+                  <td><span class="status-pill s-new" style="font-size:9px">WhatsApp</span></td>
+                  <td><span class="status-pill s-int">Interested</span></td>
+                  <td><span class="pt-fw">Today — overdue</span></td>
+                  <td><span class="pt-ok">Not sent yet</span></td>
+                  <td><span class="pt-ok">Arun K.</span></td>
+                </tr>
+                <tr>
+                  <td><div class="pt-name">Fathima Ibrahim</div><div class="pt-sub">+91 98950 ×××× · Calicut</div></td>
+                  <td><span class="status-pill s-new" style="font-size:9px;background:#EAF8EF;color:#0A5533">Website</span></td>
+                  <td><span class="status-pill s-new">New lead</span></td>
+                  <td><span class="pt-ok">—</span></td>
+                  <td><span class="pt-ok">—</span></td>
+                  <td><span class="pt-ok">—</span></td>
+                </tr>
+                <tr>
+                  <td><div class="pt-name">Suresh Menon</div><div class="pt-sub">+91 90610 ×××× · Tirur</div></td>
+                  <td><span class="status-pill" style="font-size:9px;background:#EEF4FF;color:#1D5BBF">Referral</span></td>
+                  <td><span class="status-pill s-neg">Negotiation</span></td>
+                  <td><span class="pt-ok">Quotation sent</span></td>
+                  <td><span class="status-pill" style="font-size:9px;background:#FFF6E0;color:#966100">Sent · Pending</span></td>
+                  <td><span class="pt-ok">Muhammed P.</span></td>
+                </tr>
+                <tr>
+                  <td><div class="pt-name">Ibrahim P.</div><div class="pt-sub">+91 94012 ×××× · Manjeri</div></td>
+                  <td><span class="status-pill s-new" style="font-size:9px">WhatsApp</span></td>
+                  <td><span class="status-pill s-won">Won</span></td>
+                  <td><span class="pt-ok">Closed 14 Nov</span></td>
+                  <td><span class="status-pill" style="font-size:9px;background:#EAF8EF;color:#0A5533">Accepted · ₹42,000</span></td>
+                  <td><span class="pt-ok">Arun K.</span></td>
+                </tr>
+                <tr>
+                  <td><div class="pt-name">Basheer Mohammed</div><div class="pt-sub">+91 90012 ×××× · Kondotty</div></td>
+                  <td><span class="status-pill" style="font-size:9px;background:var(--page);color:var(--text-m)">Call</span></td>
+                  <td><span class="status-pill s-cold">Cold</span></td>
+                  <td><span class="pt-fw">8 days ago</span></td>
+                  <td><span class="pt-ok">—</span></td>
+                  <td><span class="pt-ok">—</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHATSAPP -->
+<section class="wa-section" id="whatsapp">
+  <div class="wrap">
+    <div class="wa-inner">
+      <div>
+        <span class="section-eyebrow wa-eyebrow">WhatsApp integration</span>
+        <h2 class="wa-h2">Your customers message you on WhatsApp. That is not changing.</h2>
+        <p class="wa-sub">What changes with Ogera CRM is that every message is captured, every conversation is tracked, and your business number auto-replies at 2am while your team sleeps.</p>
+        <div class="wa-points">
+          <div class="wa-point">
+            <div class="wa-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#157A50" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+            Every new WhatsApp enquiry creates a lead automatically — no manual entry
+          </div>
+          <div class="wa-point">
+            <div class="wa-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#157A50" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+            Auto-replies answer pricing questions, product details, and opening hours around the clock
+          </div>
+          <div class="wa-point">
+            <div class="wa-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#157A50" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+            Your team responds from the CRM — not from personal phones
+          </div>
+          <div class="wa-point">
+            <div class="wa-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#157A50" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+            Send quotation confirmations and delivery updates directly from your business number
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="wa-phone">
+          <div class="wa-phone-topbar">
+            <div class="wa-avatar">OC</div>
+            <div>
+              <div class="wa-contact-name">Ogera CRM Business</div>
+              <div class="wa-status">Online</div>
+            </div>
+          </div>
+          <div class="wa-msgs">
+            <div class="wa-msg in ml">ഹലോ, 1000 ലിറ്റർ SS ടാങ്കിന്റെ വില എന്താണ്? Available ആണോ?</div>
+            <div class="wa-time" style="text-align:left">Rajan Nair · 10:14 PM</div>
+            <div class="wa-msg out ml">ഹലോ Rajan! ഞങ്ങളുടെ 1000L SS304 ടാങ്ക് ₹18,500. 5 വർഷം warranty, Malappuram-ൽ free delivery ഉണ്ട്. Quotation വേണോ?</div>
+            <div class="wa-time">10:14 PM · delivered</div>
+            <div class="wa-msg in ml">അതെ, Calicut-ലേക്ക് delivery.</div>
+            <div class="wa-msg out ml">ഞങ്ങളുടെ team നാളെ രാവിലെ call ചെയ്ത് address confirm ചെയ്ത് WhatsApp-ൽ quotation അയക്കും.</div>
+            <div class="wa-time">10:17 PM · delivered</div>
+            <div class="wa-auto-tag">
+              <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+              Auto-replied · 2 seconds
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <div class="wrap">
+    <div class="feature-pair">
+      <div class="feat-copy">
+        <h3>Follow-ups that actually happen</h3>
+        <p>Your team schedules follow-ups against each lead. The CRM reminds them when it is due. Managers see which leads are overdue and who has not called back.</p>
+        <div class="feat-list">
+          <div class="feat-item"><div class="feat-dot"></div><span>Set a follow-up date and time against any lead</span></div>
+          <div class="feat-item"><div class="feat-dot"></div><span>Reminders sent to the assigned salesperson</span></div>
+          <div class="feat-item"><div class="feat-dot"></div><span>Managers see every overdue task on the dashboard</span></div>
+          <div class="feat-item"><div class="feat-dot"></div><span>Full activity log: calls, visits, messages, notes</span></div>
+        </div>
+      </div>
+      <div class="feat-visual">
+        <div class="feat-visual-topbar">Today's follow-ups</div>
+        <div class="feat-visual-body">
+          <div class="fu-row">
+            <div class="fu-dot" style="background:#B44E00;margin-top:4px;flex-shrink:0"></div>
+            <div style="min-width:0;flex:1">
+              <div class="fu-name">Rajan Nair</div>
+              <div class="fu-note">Interested — Tank enquiry · Call back</div>
+            </div>
+            <div class="fu-time" style="color:#B44E00">Overdue</div>
+          </div>
+          <div class="fu-row">
+            <div class="fu-dot" style="background:#0E7A4F;margin-top:4px;flex-shrink:0"></div>
+            <div style="min-width:0;flex:1">
+              <div class="fu-name">Suresh Menon</div>
+              <div class="fu-note">Negotiation — Quotation follow-up</div>
+            </div>
+            <div class="fu-time" style="color:var(--text-s)">2:00 PM</div>
+          </div>
+          <div class="fu-row">
+            <div class="fu-dot" style="background:#1565D8;margin-top:4px;flex-shrink:0"></div>
+            <div style="min-width:0;flex:1">
+              <div class="fu-name">Priya Suresh</div>
+              <div class="fu-note">New lead — First call scheduled</div>
+            </div>
+            <div class="fu-time" style="color:var(--text-s)">4:30 PM</div>
+          </div>
+          <div class="fu-row">
+            <div class="fu-dot" style="background:var(--border);margin-top:4px;flex-shrink:0"></div>
+            <div style="min-width:0;flex:1">
+              <div class="fu-name">Naseema K.</div>
+              <div class="fu-note">Interested — Send product catalogue</div>
+            </div>
+            <div class="fu-time" style="color:var(--text-s)">5:00 PM</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-pair flip">
+      <div class="feat-visual">
+        <div class="feat-visual-topbar">Quotations</div>
+        <div class="feat-visual-body">
+          <div class="quot-row">
+            <div><div class="quot-name">Suresh Menon</div><div class="quot-sub">1000L SS304 Tank · Sent 16 Nov</div></div>
+            <div style="text-align:right">
+              <div class="quot-amt">₹18,500</div>
+              <div style="margin-top:3px"><span class="status-pill" style="font-size:9px;background:#FFF6E0;color:#966100">Awaiting reply</span></div>
+            </div>
+          </div>
+          <div class="quot-row">
+            <div><div class="quot-name">Ibrahim P.</div><div class="quot-sub">500L + 1000L Combo · Sent 14 Nov</div></div>
+            <div style="text-align:right">
+              <div class="quot-amt">₹42,000</div>
+              <div style="margin-top:3px"><span class="status-pill s-won" style="font-size:9px">Accepted</span></div>
+            </div>
+          </div>
+          <div class="quot-row">
+            <div><div class="quot-name">Naseema K.</div><div class="quot-sub">500L Industrial Tank · Draft</div></div>
+            <div style="text-align:right">
+              <div class="quot-amt" style="color:var(--text-m)">₹11,200</div>
+              <div style="margin-top:3px"><span class="status-pill s-cold" style="font-size:9px">Draft</span></div>
+            </div>
+          </div>
+          <div class="quot-row">
+            <div><div class="quot-name">Rajan Nair</div><div class="quot-sub">1000L SS304 Tank · Not sent</div></div>
+            <div style="text-align:right">
+              <div class="quot-amt" style="color:var(--text-m)">—</div>
+              <div style="margin-top:3px"><span class="status-pill" style="font-size:9px;background:#FEF0E8;color:#B44E00">Overdue</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="feat-copy">
+        <h3>Professional quotations in two minutes</h3>
+        <p>Build a quotation from your product catalogue, preview it, and send it directly to the customer's WhatsApp. Every quotation is tracked — sent, opened, accepted, or ignored.</p>
+        <div class="feat-list">
+          <div class="feat-item"><div class="feat-dot"></div><span>Select products from your catalogue — pricing auto-fills</span></div>
+          <div class="feat-item"><div class="feat-dot"></div><span>Generate a PDF with your business letterhead</span></div>
+          <div class="feat-item"><div class="feat-dot"></div><span>Send on WhatsApp or share a link — tracked automatically</span></div>
+          <div class="feat-item"><div class="feat-dot"></div><span>Convert an accepted quotation to a sale with one click</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="wrap">
+    <div class="cta-box">
+      <h2 class="ml">നിങ്ങളുടെ ബിസിനസ്സിന് Ogera CRM ശരിയാണോ എന്ന് ഒരുമിച്ച് നോക്കാം.</h2>
+      <p>Book a free 30-minute demo. We will show you the product against your specific business — the leads, the team size, the way you currently work. No sales pitch.</p>
+      <div class="cta-actions">
+        <a href="#" class="btn-primary ml">സൗജന്യ Demo ബുക്ക് ചെയ്യൂ</a>
+        <a href="#" class="btn-text ml">WhatsApp-ൽ സംസാരിക്കാം</a>
+      </div>
+      <p class="cta-note">Available for businesses in Malappuram, Calicut, Kasaragod and surrounding areas. Remote setup also available.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">
+          <div class="footer-mark">OC</div>
+          <span class="footer-name">Ogera CRM</span>
+        </div>
+        <p class="footer-tagline">Built for small and medium businesses across Kerala.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h5>Product</h5>
+          <ul>
+            <li><a href="#product">How it works</a></li>
+            <li><a href="#whatsapp">WhatsApp</a></li>
+            <li><a href="#features">Features</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="#">About Ogera Ventures</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Ogera Ventures Private Limited</span>
+      <span class="footer-copy">Malappuram, Kerala, India</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  var t = document.getElementById('nav-toggle');
+  var m = document.getElementById('mobile-nav');
+  var b = document.getElementById('mnav-backdrop');
+  function open() { m.classList.add('open'); t.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; }
+  function close() { m.classList.remove('open'); t.setAttribute('aria-expanded','false'); document.body.style.overflow=''; }
+  t.addEventListener('click', function() { m.classList.contains('open') ? close() : open(); });
+  b.addEventListener('click', close);
+  m.querySelectorAll('.mnav-link,.mnav-cta').forEach(function(l){ l.addEventListener('click', close); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') close(); });
+})();
+</script>
